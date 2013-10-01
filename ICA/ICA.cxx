@@ -31,17 +31,19 @@ void MatrixSqrt(const MatrixXd &A, MatrixXd &S)
 	S = es.eigenvectors() * es.eigenvalues().unaryExpr(ptr_fun(static_cast<double (*)(double)>(&sqrt))).asDiagonal() * es.eigenvectors().transpose();
 }
 
-void Whitening(MatrixXd &X)
+MatrixXd Whitening(MatrixXd &X)
 {
-	MatrixXd Winv(X.rows(), X.rows());
+	MatrixXd V(X.rows(), X.rows());
 
 	X = X.colwise() - X.rowwise().mean();
 
-	Covariance(X, Winv);
-	MatrixSqrt(Winv, Winv);	// Wz^-1 = Cov[centerized X] ^(1/2)
+	Covariance(X, V);
+	MatrixSqrt(V, V);	// Wz^-1 = Cov[centerized X] ^(1/2)
 
 	for (int i = 0; i < X.cols(); i++)
-		X.col(i) = Winv.colPivHouseholderQr().solve(X.col(i));
+		X.col(i) = V.colPivHouseholderQr().solve(X.col(i));
+
+	return V;
 }
 
 inline void set(double dst[], MatrixXd src)
@@ -62,9 +64,11 @@ __DLL double __stdcall Learn(int dim, double w[], double data[], int count, bool
 {
 	Map<MatrixXdR> W(w, dim, dim);
 	MatrixXd m = Map<MatrixXd>(data, dim, count);
+	MatrixXd V;
+	int j_sample = 100;
 
 	if (whiten)
-		Whitening(m);
+		V = Whitening(m);
 
 	double J = 0;
 	for (int i = 0; i < m.cols(); i++)
@@ -73,8 +77,13 @@ __DLL double __stdcall Learn(int dim, double w[], double data[], int count, bool
 		VectorXd u = W * x;
 		VectorXd y = u.unaryExpr([](double z) { return 1.0 / (1 + exp(-z)); });
 		W += rate * (MatrixXdR::Identity(dim, dim) + (VectorXd::Ones(dim) - 2 * y) * u.transpose()) * W;
-		//J += log(abs((u.unaryExpr([](double z) { double p = exp(-z); return p * pow(1 + p, -2); }).asDiagonal() * W).determinant())) / m.cols();
+		if (i >= m.cols() - j_sample)
+			J += log(abs((u.unaryExpr([](double z) { double p = exp(-z); return p * pow(1 + p, -2); }).asDiagonal() * W).determinant()));
 	}
+	J /= j_sample;
+
+	if (whiten)
+		W = W * V;
 
 	return J;
 }

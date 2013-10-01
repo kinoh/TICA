@@ -51,6 +51,8 @@
             this.textboxImage = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.buttonSample = new System.Windows.Forms.Button();
+            this.checkboxWhiten = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picturePatch)).BeginInit();
             this.SuspendLayout();
             // 
@@ -124,11 +126,12 @@
             // 
             // textboxRate
             // 
-            this.textboxRate.Location = new System.Drawing.Point(126, 152);
+            this.textboxRate.Location = new System.Drawing.Point(126, 155);
+            this.textboxRate.Multiline = true;
             this.textboxRate.Name = "textboxRate";
-            this.textboxRate.Size = new System.Drawing.Size(137, 22);
+            this.textboxRate.Size = new System.Drawing.Size(137, 102);
             this.textboxRate.TabIndex = 11;
-            this.textboxRate.Text = "0.001";
+            this.textboxRate.Text = "0.001 x 21\r\n0.0005 x 3\r\n0.0002 x 3\r\n0.0001 x 3";
             // 
             // label5
             // 
@@ -141,20 +144,20 @@
             // 
             // buttonRun
             // 
-            this.buttonRun.Location = new System.Drawing.Point(188, 180);
+            this.buttonRun.Location = new System.Drawing.Point(188, 263);
             this.buttonRun.Name = "buttonRun";
             this.buttonRun.Size = new System.Drawing.Size(75, 23);
-            this.buttonRun.TabIndex = 13;
+            this.buttonRun.TabIndex = 14;
             this.buttonRun.Text = "Run";
             this.buttonRun.UseVisualStyleBackColor = true;
             this.buttonRun.Click += new System.EventHandler(this.buttonRun_Click);
             // 
             // buttonInit
             // 
-            this.buttonInit.Location = new System.Drawing.Point(107, 180);
+            this.buttonInit.Location = new System.Drawing.Point(107, 263);
             this.buttonInit.Name = "buttonInit";
             this.buttonInit.Size = new System.Drawing.Size(75, 23);
-            this.buttonInit.TabIndex = 12;
+            this.buttonInit.TabIndex = 13;
             this.buttonInit.Text = "Initialize";
             this.buttonInit.UseVisualStyleBackColor = true;
             this.buttonInit.Click += new System.EventHandler(this.buttonInit_Click);
@@ -178,17 +181,17 @@
             // 
             // buttonOutput
             // 
-            this.buttonOutput.Location = new System.Drawing.Point(188, 209);
+            this.buttonOutput.Location = new System.Drawing.Point(188, 292);
             this.buttonOutput.Name = "buttonOutput";
             this.buttonOutput.Size = new System.Drawing.Size(75, 23);
-            this.buttonOutput.TabIndex = 15;
+            this.buttonOutput.TabIndex = 17;
             this.buttonOutput.Text = "Output";
             this.buttonOutput.UseVisualStyleBackColor = true;
             this.buttonOutput.Click += new System.EventHandler(this.buttonOutput_Click);
             // 
             // buttonLoad
             // 
-            this.buttonLoad.Location = new System.Drawing.Point(107, 302);
+            this.buttonLoad.Location = new System.Drawing.Point(403, 294);
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(75, 23);
             this.buttonLoad.TabIndex = 24;
@@ -198,7 +201,7 @@
             // 
             // buttonAnalyze
             // 
-            this.buttonAnalyze.Location = new System.Drawing.Point(188, 302);
+            this.buttonAnalyze.Location = new System.Drawing.Point(484, 294);
             this.buttonAnalyze.Name = "buttonAnalyze";
             this.buttonAnalyze.Size = new System.Drawing.Size(75, 23);
             this.buttonAnalyze.TabIndex = 25;
@@ -209,7 +212,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 277);
+            this.label7.Location = new System.Drawing.Point(308, 269);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(46, 15);
             this.label7.TabIndex = 22;
@@ -217,7 +220,7 @@
             // 
             // textboxCutoff
             // 
-            this.textboxCutoff.Location = new System.Drawing.Point(126, 274);
+            this.textboxCutoff.Location = new System.Drawing.Point(422, 266);
             this.textboxCutoff.Name = "textboxCutoff";
             this.textboxCutoff.Size = new System.Drawing.Size(137, 22);
             this.textboxCutoff.TabIndex = 23;
@@ -225,7 +228,7 @@
             // 
             // picturePatch
             // 
-            this.picturePatch.Location = new System.Drawing.Point(231, 331);
+            this.picturePatch.Location = new System.Drawing.Point(422, 333);
             this.picturePatch.Name = "picturePatch";
             this.picturePatch.Size = new System.Drawing.Size(32, 32);
             this.picturePatch.TabIndex = 20;
@@ -233,7 +236,7 @@
             // 
             // textboxImage
             // 
-            this.textboxImage.Location = new System.Drawing.Point(126, 246);
+            this.textboxImage.Location = new System.Drawing.Point(422, 238);
             this.textboxImage.Name = "textboxImage";
             this.textboxImage.Size = new System.Drawing.Size(137, 22);
             this.textboxImage.TabIndex = 21;
@@ -242,7 +245,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(12, 249);
+            this.label8.Location = new System.Drawing.Point(308, 241);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(43, 15);
             this.label8.TabIndex = 20;
@@ -250,7 +253,7 @@
             // 
             // buttonSample
             // 
-            this.buttonSample.Location = new System.Drawing.Point(107, 209);
+            this.buttonSample.Location = new System.Drawing.Point(107, 292);
             this.buttonSample.Name = "buttonSample";
             this.buttonSample.Size = new System.Drawing.Size(75, 23);
             this.buttonSample.TabIndex = 16;
@@ -258,11 +261,32 @@
             this.buttonSample.UseVisualStyleBackColor = true;
             this.buttonSample.Click += new System.EventHandler(this.buttonSample_Click);
             // 
+            // checkboxWhiten
+            // 
+            this.checkboxWhiten.AutoSize = true;
+            this.checkboxWhiten.Location = new System.Drawing.Point(15, 238);
+            this.checkboxWhiten.Name = "checkboxWhiten";
+            this.checkboxWhiten.Size = new System.Drawing.Size(89, 19);
+            this.checkboxWhiten.TabIndex = 12;
+            this.checkboxWhiten.Text = "whitening";
+            this.checkboxWhiten.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(308, 340);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(42, 15);
+            this.label9.TabIndex = 26;
+            this.label9.Text = "patch";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(500, 437);
+            this.ClientSize = new System.Drawing.Size(571, 437);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.checkboxWhiten);
             this.Controls.Add(this.buttonSample);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.textboxImage);
@@ -319,6 +343,8 @@
         private System.Windows.Forms.TextBox textboxImage;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button buttonSample;
+        private System.Windows.Forms.CheckBox checkboxWhiten;
+        private System.Windows.Forms.Label label9;
     }
 }
 

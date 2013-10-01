@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +15,8 @@ namespace ICA
 {
     public partial class Main : Form
     {
+        string baseTitle = "ICA";
+        
         Filters filtersWindow;
         Analyzer analyzerWindow;
         ICA ica;
@@ -45,26 +48,51 @@ namespace ICA
             ShowFilters();
         }
 
+        void SetMessage(string msg)
+        {
+            this.Text = baseTitle + " - " + msg;
+        }
+
+        void ClearMessage()
+        {
+            this.Text = baseTitle;
+        }
+
+        double[] ParseRate()
+        {
+            var r = new List<double>();
+
+            foreach (var line in textboxRate.Text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                Match m;
+                if ((m = Regex.Match(line, @"([0-9]*\.[0-9]*(?<!^\.))\s*x\s*([0-9]+)")).Success)
+                    r.AddRange(Enumerable.Repeat(double.Parse(m.Groups[1].Value), int.Parse(m.Groups[2].Value)));
+                else if ((m = Regex.Match(line, @"[0-9]*\.[0-9]*(?<!^\.)")).Success)
+                    r.Add(double.Parse(line));
+            }
+
+            return r.ToArray();
+        }
+
         void Learn()
         {
             var d = length * length;
             var dataCount = int.Parse(textboxPatches.Text);
             var data = new double[dataCount * d];
             var imgSamples = int.Parse(textboxSamples.Text);
-            var rate = double.Parse(textboxRate.Text);
+            var whiten = checkboxWhiten.Checked;
+            var rate = ParseRate();
             
             ica.LoadSamples(textboxDirectory.Text, dataCount, imgSamples);
             //ica.LoadTestSamples(dataCount);
             double j = 0;
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < rate.Length; i++)
             {
-                rate = (i < 21 ? 0.001 : (i < 24 ? 0.0005 : (i < 27 ? 0.0002 : 0.0001)));
-                j = ica.Learn(dataCount, false, rate);
+                j = ica.Learn(dataCount, whiten, rate[i]);
+                this.Invoke((Action)(() => SetMessage((100.0 * i / rate.Length).ToString() + " % " + j.ToString())));
             }
 
-            this.Invoke((Action)(() => 
-                this.Text = j.ToString()
-                ));
+            this.Invoke((Action)(() => ClearMessage()));
         }
 
         private void Encode(string src, int cutoff)
